@@ -1,0 +1,272 @@
+<meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="{{ url_for('static',filename='platform.css') }}">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='bootstrap.css') }}">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='font-awesome.min.css') }}">
+
+
+
+
+  <title>plateforme</title>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg  top-bar navbar-static-top sps sps--abv">
+        <div class="container">
+      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarCollapse1" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <a class="navbar-brand mx-auto" href="#">analy<span>tex</span></a>
+      <div class="collapse navbar-collapse" id="navbarCollapse1">
+        <ul class="navbar-nav ml-auto">
+         <li class="nav-item active"> <a class="nav-link" href="#myCarousel">acceuil <span class="sr-only">(current)</span></a> </li>
+        <li class="nav-item"> <a class="nav-link" href="#benefits">sur nous</a> </li>
+        <li class="nav-item"> <a class="nav-link" href="#about">comment ça marche</a> </li>
+        <li class="nav-item"> <a class="nav-link" href="{{ url_for('outil1') }}">outils</a> </li>
+        <li class="nav-item"> <a class="nav-link" href="#gallery">guide</a>
+         </li>
+        <li class="nav-item"> <a class="nav-link" href="#contact">Contact</a> </li>
+        </ul>
+      </div>
+            </div>
+    </nav>
+
+<!-- Swiper Silder
+    ================================================== -->
+<!-- Slider main container -->
+<div class="swiper-container main-slider" id="myCarousel">
+  <div class="swiper-wrapper">
+    <div class="swiper-slide slider-bg-position" style="background:url('../static/photo/25060.jpg')" data-hash="slide1">
+      <h2>LA meilleure façon d'analyser vos données</h2>
+    </div>
+    <div class="swiper-slide slider-bg-position" style="background:url('../static/photo/61.jpg')" data-hash="slide2">
+      <h2>analytex outils:  un environnement d'analyse de texte en ligne. </h2>
+    </div>
+
+    <div class="swiper-slide slider-bg-position" style="background:url('../static/photo/13390.jpg')" data-hash="slide1">
+      <h2>un environnement de lecture et d'analyse en ligne (complète)  avec des outils de visualisation</h2>
+    </div>
+
+
+    <div class="swiper-slide slider-bg-position" style="background:url('../static/photo/61.jpg')" data-hash="slide2">
+      <h2>Lexicometries, analyse quantitative et qualitative de (digital textual arabic corpus)</h2>
+    </div>
+  </div>
+  <!-- Add Pagination -->
+
+
+  <div class="swiper-pagination"></div>
+  <!-- Add Navigation -->
+  <div class="swiper-button-prev"><i class="fa fa-chevron-left"></i></div>
+  <div class="swiper-button-next"><i class="fa fa-chevron-right"></i></div>
+</div>
+
+
+
+<div class="partie2">
+  <div class="section-content">
+        <h1 class="section-header"> <span class="content-header wow fadeIn " data-wow-delay="0.2s" data-wow-duration="2s"> About</span> us</h1>
+
+      </div>
+
+
+                <div class="dv1">
+                    <div class="cercle1"></div>
+                    <div class="cercle21"> </div>
+                    <h3 class="div1h3">our vision</h3>
+                    <div class="rectangle1"></div>
+                    <div class="div1txt">
+                    <p class="div1p"> Nous voulons implementer une plateforme basée sur l'étude des corpus arabe à la fois morphologiquement et statistiquement de façon performante.</p>
+                    </div>
+
+                </div>
+                <div class="dv2">
+                    <div class="cercle1"></div>
+                    <div class="cercle22"></div>
+                    <h3 class="div2h3">our story</h3>
+                    <div class="rectangle2"></div>
+                     <div class="div2txt">
+                    <p class="div2p">
+                    Le projet est conduit par l'academie algérienne de la langue arabe et réalisé par deux étudiantes comme projet de fin d'études.
+                    </p>
+                    </div>
+
+                </div>
+                <div class="dv3">
+                    <div class="cercle1"></div>
+                    <div class="cercle23"></div>
+                    <h3 class="div3h3">qualities</h3>
+                    <div class="rectangle3"></div>
+                     <div class="div3txt">
+                    <p class="div3p">
+                    Accessible a un grand groupe d'utilisateurs et offre un produit qui facilitera et améliorera considérablement  ( the analysic of Arabic corpus)  l'analyse du corpus arabe
+                    </p>
+                    </div>
+
+                </div>
+            </div>
+
+
+            <div class="partie3"><div class="couleur3"></div></div>
+
+
+
+
+            <div class="header">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-8">
+
+            <div class="top-title">
+              <h1 class="animated infinite bounceInDown">Stop doing the statistics by yourself</h1>
+              <h6 class="logo-title animated pulse">analytix is the best solution</h6>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="menu">
+              <li class="f-item-1"><a href="mh-1">concordance</a></li>
+              <li class="f-item-2"><a href="mh-2">frequence</a></li>
+              <li class="f-item-3"><a href="mh-3">colocation</a></li>
+              <li class="f-item-4"><a href="mh-4">N-grams</a></li>
+              <li class="f-item-5"><a href="mh-5">similarite</a></li>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="partie4"><div class="couleur3"></div></div>
+
+<div class="section-content">
+        <h1 class="section-header"> <span class="content-header wow fadeIn " data-wow-delay="0.2s" data-wow-duration="2s"> comment</span> ça marche</h1>
+
+      </div>
+
+
+
+    <div id="myCarousell" class="carousel slide carousel-fade" data-ride="carousel">
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <div class="mask flex-center">
+        <div class="container2">
+          <div class="row align-items-center">
+            <div class="col-md-7 col-12 order-md-1 order-2">
+              <h4>Concordance </h4>
+            
+              <h3>Écrivez un mot et cliquez pour avoir la <br> concordance du mot en KWIC <br>(Key Word In Context)et vous obtiendrez<br> le numéro de la ligne dans la source.</h3>
+               </div>
+            <div class="col-md-5 col-12 order-md-2 order-1"><img  src="{{ url_for('static',filename='photo/sab.png') }}" alt="slide"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="carousel-item">
+      <div class="mask flex-center">
+        <div class="container2">
+          <div class="row align-items-center">
+            <div class="col-md-7 col-12 order-md-1 order-2">
+              <h4>frequence</h4>
+              <h3> ce programme génère des listes de mots basées sur un ou plusieurs fichiers-textes.  Les listes de mots sont automatiquement générés à la fois en ordres alphabétique et de fréquences. </h3>
+               </div>
+            <div class="col-md-5 col-12 order-md-2 order-1"><img  src="{{ url_for('static',filename='photo/20.png') }}" alt="slide"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="carousel-item">
+      <div class="mask flex-center">
+        <div class="container2">
+          <div class="row align-items-center">
+            <div class="col-md-7 col-12 order-md-1 order-2">
+              <h4>similarity </h4>
+              <h3>similarity tels how similar two text of your corpus documents are
+              <br>and provide an numerical measure of how alike two data objects are </h3> </div>
+            <div class="col-md-5 col-12 order-md-2 order-1"><img  src="{{ url_for('static',filename='photo/21.png') }}" alt="slide"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <a class="carousel-control-prev" href="#myCarousell" role="button" data-slide="prev"> <span class="carousel-control-prev-icon" aria-hidden="true"></span> <span class="sr-only">Previous</span> </a> <a class="carousel-control-next" href="#myCarousell" role="button" data-slide="next"> <span class="carousel-control-next-icon" aria-hidden="true"></span> <span class="sr-only">Next</span> </a> </div>
+
+
+ <div class="partie5"><div class="couleur3"></div></div>
+
+
+
+
+
+
+
+
+<div class="partie6">
+
+
+  <div class="section-content">
+        <h1 class="section-header"> <span class="content-header wow fadeIn " data-wow-delay="0.2s" data-wow-duration="2s"> contactez</span> nous</h1>
+
+      </div>
+ <div class="container contact">
+  <div class="row">
+    <div class="col-md-3">
+      <div class="contact-info">
+        <img src="https://image.ibb.co/kUASdV/contact-image.png" alt="image"/>
+        <h2>Contactez-nous</h2>
+        <h4>contactez-nous. Nous aimerions avoir de vos nouvelles !</h4>
+      </div>
+    </div>
+    <div class="col-md-9">
+      <div class="contact-form">
+        <div class="form-group">
+          <label class="control-label col-sm-2" for="fname">nom:</label>
+          <div class="col-sm-10">
+          <input type="text" class="form-control" id="fname" placeholder="Enter nom" name="fname">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label col-sm-2" for="lname">prenom:</label>
+          <div class="col-sm-10">
+          <input type="text" class="form-control" id="lname" placeholder="Enter prenom" name="lname">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label col-sm-2" for="email">Email:</label>
+          <div class="col-sm-10">
+          <input type="email" class="form-control" id="email" placeholder="Enter email" name="email">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label col-sm-2" for="comment">Commentaire:</label>
+          <div class="col-sm-10">
+          <textarea class="form-control" rows="5" id="comment"></textarea>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-sm-offset-2 col-sm-10">
+          <button type="submit" class="btn btn-default">Submit</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+
+
+
+
+  <script src="{{ url_for('static',filename='jquery-3.3.1_2.js') }}"></script>
+  <script src="{{ url_for('static',filename='jquery-1.11.1.min.js') }}"></script>
+  <script src="{{ url_for('static',filename='bootstrap.min.js') }}"></script>
+  <script src="{{ url_for('static',filename='bootstrap.js') }}"></script>
+  <script src="{{ url_for('static',filename='platform.js') }}"></script>
+
+
+
+
+
+
+</body>
+</html>

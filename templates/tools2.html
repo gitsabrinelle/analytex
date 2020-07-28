@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">  
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+     <link rel="stylesheet" href="{{ url_for('static',filename='css/tools2.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static',filename='css/expl2.css') }}">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='bootstrap.min.css') }}">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='font-awesome.min.css') }}">
+
+    <title>plateforme</title>
+</head>     
+<body>
+<div class="page-wrapper chiller-theme toggled">
+  <a id="show-sidebar" class="btn btn-sm btn-dark" href="#">
+    <i class="fas fa-bars"></i>
+  </a>
+  <nav id="sidebar" class="sidebar-wrapper">
+    <div class="sidebar-content">
+      <div class="sidebar-brand">
+        <a href="#">pro sidebar</a>
+        <div id="close-sidebar">
+          <i class="fas fa-times"></i>
+        </div>
+      </div>
+      <div class="sidebar-header">
+        <div class="user-pic">
+          <img class="img-responsive img-rounded" src="https://raw.githubusercontent.com/azouaoui-med/pro-sidebar-template/gh-pages/src/img/user.jpg"
+            alt="User picture">
+        </div>
+        <div class="user-info">
+          <span class="user-name">Analy
+            <strong>Tix</strong>
+          </span>
+         
+        </div>
+      </div>
+
+      <div class="sidebar-menu">
+        <ul>
+          <li class="header-menu">
+            <span>outils Statistiques</span>
+          </li>
+          <li class="sidebar-dropdown"><a href="#"><i class="fa fa-chevron-right"></i><span>Analyse frequencielle</span></a>
+
+
+            <div class="sidebar-submenu">
+              <ul>
+                <li>
+                  <a href="#">Table des frequences
+                  </a>
+                </li>
+                <li>
+                  <a href="#">Histogramme</a>
+                </li>
+                <li>
+                  <a href="#">nuage des mots</a>
+                </li>
+                <li>
+                  <a href="#">graphe de zip</a>
+                </li>
+              </ul>
+            </div>
+          </li>
+          <li class="sidebar-dropdown">
+            <a href="#">
+              <i class="fa fa-shopping-cart"></i>
+              <span>CONCORDANCE</span>
+            </a>
+            <div class="sidebar-submenu">
+              <ul>
+                <li>
+                  <a href="#">KWAK
+
+                  </a>
+                </li>
+                <li>
+                  <a href="#">KWUT</a>
+                </li>
+                <li>
+                  <a href="#">kwuk</a>
+                </li>
+              </ul>
+            </div>
+          </li>
+         
+          <li class="sidebar-dropdown">
+            <a href="#">
+              <i class="fa fa-chart-line"></i>
+              <span>N-Grams</span>
+            </a>
+            
+          </li>
+          <li class="sidebar-dropdown">
+            <a href="#">
+              <i class="fa fa-globe"></i>
+              <span>Collocation</span>
+            </a>
+          </li>
+          <li class="header-menu">
+            <span>autre outils</span>
+          </li>
+          
+
+           <li class="sidebar-dropdown">
+            <a href="#">
+              <i class="fa fa-shopping-cart"></i>
+              <span>Classification</span>
+            </a>
+            <div class="sidebar-submenu">
+              <ul>
+                <li>
+                  <a href="#">dendrogramme
+
+                  </a>
+                </li>
+                <li>
+                  <a href="#">Table des classes</a>
+                </li>
+                
+              </ul>
+            </div>
+          </li>
+
+
+          <li>
+            <a href="#">
+              <i class="fa fa-calendar"></i>
+              <span>Moteur de recherche</span>
+            </a>
+          </li>
+          
+        </ul>
+      </div>
+      <!-- sidebar-menu  -->
+    </div>
+    <!-- sidebar-content  -->
+    <div class="sidebar-footer">
+      <a href="#">
+        <i class="fa fa-bell"></i>
+        <span class="badge badge-pill badge-warning notification">3</span>
+      </a>
+      <a href="#">
+        <i class="fa fa-envelope"></i>
+        <span class="badge badge-pill badge-success notification">7</span>
+      </a>
+      <a href="#">
+        <i class="fa fa-cog"></i>
+        <span class="badge-sonar"></span>
+      </a>
+      <a href="#">
+        <i class="fa fa-power-off"></i>
+      </a>
+    </div>
+  </nav>
+  <!-- sidebar-wrapper  -->
+  <main class="page-content">
+    <div class="container-fluid">
+      <h2>Creer un corpus</h2>
+      <hr>
+      <div class="row">
+        <div class="form-group col-md-12">
+      
+
+
+
+<div class="input-group">
+ 
+  <div class="custom-file">
+    <input type="file" class="custom-file-input" id="inputGroupFile01"
+      aria-describedby="inputGroupFileAddon01">
+    <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+  </div>
+</div>
+
+
+
+
+
+        </div>
+        <div class="form-group col-md-12">
+         
+
+
+
+
+         <label class="radio-inline"><input type="radio" name="optradio" checked>avec lemmatisation</label>
+<label class="radio-inline"><input type="radio" name="optradio">sans lemmatisation</label>
+
+
+
+
+
+<select class="custom-select" id="inputGroupSelect02">
+    <option selected>Choisir lemmatiseur</option>
+    <option value="1">One</option>
+    <option value="2">Two</option>
+    <option value="3">Three</option>
+  </select>
+
+
+<label class="radio-inline"><input type="radio" name="optradio" checked>lexicometrie</label>
+<label class="radio-inline"><input type="radio" name="optradio">tokenization</label>
+
+
+
+
+  <div class="input-group mb-3">
+  <input type="text" class="form-control" placeholder="choisir delimiteur" aria-label="Recipient's username" aria-describedby="basic-addon2">
+  <div class="input-group-append">
+    <button class="btn btn-outline-secondary" type="button">Button</button>
+  </div>
+</div>
+
+
+
+
+      <h5>More templates</h5>
+      <hr>
+        <div class="row">
+        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">          
+          <div class="card rounded-0 p-0 shadow-sm">
+            <img src="https://user-images.githubusercontent.com/25878302/58369568-a49b2480-7efc-11e9-9ca9-2be44afacda1.png" class="card-img-top rounded-0" alt="Angular pro sidebar">
+            <div class="card-body text-center">
+                <h6 class="card-title">Angular Pro Sidebar</h6>
+                <a href="https://github.com/azouaoui-med/angular-pro-sidebar" target="_blank" class="btn btn-primary btn-sm">Github</a>
+                <a href="https://azouaoui-med.github.io/angular-pro-sidebar/demo/" target="_blank" class="btn btn-success btn-sm">Preview</a>
+            </div>
+          </div>          
+        </div>
+                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">          
+          <div class="card rounded-0 p-0 shadow-sm">
+            <img src="https://user-images.githubusercontent.com/25878302/58369258-33f20900-7ef8-11e9-8ff3-b277cb7ed7b4.PNG" class="card-img-top rounded-0" alt="Angular pro sidebar">
+            <div class="card-body text-center">
+                <h6 class="card-title">Angular Dashboard</h6>
+                <a href="https://github.com/azouaoui-med/lightning-admin-angular" target="_blank" class="btn btn-primary btn-sm">Github</a>
+                <a href="https://azouaoui-med.github.io/lightning-admin-angular/demo/" target="_blank" class="btn btn-success btn-sm">Preview</a>
+            </div>
+          </div>          
+        </div>
+      </div>
+    </div>
+
+  </main>
+  <!-- page-content" -->
+</div>
+<!-- page-wrapper -->
+    <script src="{{ url_for('static',filename='jquery-3.3.1_2.js') }}"></script>
+  <script src="{{ url_for('static',filename='jquery-1.11.1.min.js') }}"></script>
+    <script src="{{ url_for('static',filename='bootstrap.min.js') }}"></script>
+
+    <script src="{{ url_for('static',filename='js/tools2.js') }}"></script>
+    
+
+
+
+  
+  
+
+
+  
+
+</body>
+</html>

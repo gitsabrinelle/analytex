@@ -1,0 +1,18 @@
+
+<html>
+
+<body>
+
+<form method="post" action="verif.php"> 
+Entrer le numero : <input type="text" name="nom" size="12"><br> 
+ <input type="submit" value="OK"> 
+</form>
+ 
+<?
+$nom = $_POST["nom"]; 
+echo "Bonjour $nom"; 
+?>
+
+</body>
+</html>
+

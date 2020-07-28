@@ -1,0 +1,656 @@
+﻿import os
+from pre import *
+# coding: utf-8
+
+from TFIDF import *
+import scipy.cluster.hierarchy as sch
+import matplotlib.pyplot as plt
+import numpy as np
+from scipy.cluster import hierarchy
+import pandas
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+import tkinter as tk
+from collections import OrderedDict
+from stop_words import get_stop_words
+
+def normalisation_tott(text):
+    t=diacritiques(text)
+    t=normaliser(t)
+    t=sup_mot_non_arabe(t)
+    t=sup_urls(t)
+    t=sup_espace(t)
+    t=sup_punctuations(t)
+    return t
+
+
+def corpus_pers(pathcorp):
+    l = {}
+    src =pathcorp
+    for filename in os.listdir(src):
+        path = os.path.join(src, filename)
+        with open(path, "r",encoding="utf8") as inputFile:
+            content = inputFile.read()
+
+            text = normalisation_tott(content)
+            text = tokenize(text)
+            text = sup_stopwords(text)
+            l[filename] = text
+    return l
+
+def corpus_pers2(pathcorp,listte_file_nom):
+    l = {}
+    src =pathcorp
+    for filename in os.listdir(src):
+        if filename in listte_file_nom:
+            path = os.path.join(src, filename)
+            with open(path, "r", encoding="utf8") as inputFile:
+                content = inputFile.read()
+                text = normalisation_tott(content)
+                text = tokenize(text)
+                text = sup_stopwords(text)
+                l[filename] = text
+    return l
+
+def all_word_corpus(list_word):
+    final=[]
+    for i in list_word:
+        for j in i :
+            if j not in final:
+                final.append(j)
+    return final
+
+
+def claculer_tf(word_corp,total):
+    tfidf_list = []
+    for word in word_corp:
+        a = afficher_TF2(word, total)
+        tfidf_list.append(a)
+    return tfidf_list
+def claculer_tfidf(word_corp,total):
+    tfidf_list = []
+    for word in word_corp:
+        a = afficher_TF2(word, total)
+
+        b = afficher_IDF2(word, total)
+        TF_IDFF = TF_IDF(b, a)
+        tfidf_list.append(TF_IDFF)
+    return tfidf_list
+
+def distance_ecludien(list1,liste2):
+    cal=0
+    dist_ecl=0
+    for i in range (0,len(list1)):
+        cal=cal+((list1[i]-liste2[i])**2)
+    dist_ecl=math.sqrt(cal)
+    return dist_ecl
+
+def distance_manhatan(liste1,liste2):
+    return sum(abs(i-j)for i,j in zip(liste1,liste2))
+
+
+def distance_jaccard(liste1,liste2):
+    interaction_cardinalite=len(set.intersection(*[set(liste1),set(liste2)]))
+    union_cardinalite=len(set.union(*[set(liste1),set(liste2)]))
+    return interaction_cardinalite/float(union_cardinalite)
+
+def carre(list1):
+    return round(math.sqrt(sum([a*a for a in list1])),3)
+
+def distance_cosinus(liste1,liste2):
+    num=sum(a*b for a,b in zip(liste1,liste2))
+    deno=carre(liste1)*carre(liste2)
+    return round((num/float(deno)),3)
+
+def tfidf_matrix(tfidff):
+    a = [' ']
+    b = np.array([])
+    li_f = []
+    for i in tfidff:
+        a = ''
+        li = []
+        for j in i:
+            li.append(j['TF_IDF'])
+        li_f.append(li)
+    lii = []
+    for j in range(0, len(li_f)):
+        if j == 0:
+            for t in li_f[j]:
+                l = []
+                l.append(t)
+                lii.append(l)
+        else:
+            for q in range(0, len(li_f[j])):
+                lii[q].append((li_f[j])[q])
+    l1 = lii[0]
+    freq_matrix = np.array([l1])
+    for i in range(1, len(lii)):
+        b = np.array([lii[i]])
+        freq_matrix = np.append(freq_matrix, b, axis=0)
+    return freq_matrix
+
+def CHA_manhatan(freq_matrix):
+
+    total = []
+    for i in range(0, len(freq_matrix)):
+        ll = []
+        for j in range(0, len(freq_matrix)):
+            ll.append(round(distance_manhatan(freq_matrix[i], freq_matrix[j]), 3))
+        total.append(ll)
+
+    lis = total[0]
+    distance_matrix = np.array([lis])
+    for i in range(1, len(total)):
+        b = np.array([total[i]])
+        distance_matrix = np.append(distance_matrix, b, axis=0)
+    return distance_matrix
+
+def CHA_ecludien(freq_matrix):
+
+    total = []
+    for i in range(0, len(freq_matrix)):
+        ll = []
+        for j in range(0, len(freq_matrix)):
+            ll.append(round(distance_ecludien(freq_matrix[i], freq_matrix[j]), 3))
+        total.append(ll)
+
+    lis = total[0]
+    distance_matrix = np.array([lis])
+    for i in range(1, len(total)):
+        b = np.array([total[i]])
+        distance_matrix = np.append(distance_matrix, b, axis=0)
+    return distance_matrix
+
+
+def CHA_jacard(freq_matrix):
+
+    total = []
+    for i in range(0, len(freq_matrix)):
+        ll = []
+        for j in range(0, len(freq_matrix)):
+            ll.append(round(distance_jaccard(freq_matrix[i], freq_matrix[j]), 3))
+        total.append(ll)
+
+    lis = total[0]
+    distance_matrix = np.array([lis])
+    for i in range(1, len(total)):
+        b = np.array([total[i]])
+        distance_matrix = np.append(distance_matrix, b, axis=0)
+    return distance_matrix
+
+def CHA_cosinus(freq_matrix):
+
+    total = []
+    for i in range(0, len(freq_matrix)):
+        ll = []
+        for j in range(0, len(freq_matrix)):
+            ll.append(round(distance_cosinus(freq_matrix[i], freq_matrix[j]), 3))
+        total.append(ll)
+
+    lis = total[0]
+    distance_matrix = np.array([lis])
+    for i in range(1, len(total)):
+        b = np.array([total[i]])
+        distance_matrix = np.append(distance_matrix, b, axis=0)
+    return distance_matrix
+
+def linkage_single(distance_matrix,nom_similarite,list_doc,dist_value):
+    lis = []
+    if dist_value == 0:
+        pathh = 'C:/Users/MSI/Desktop/p1/plot_avant.png'
+
+        linkage = sch.linkage(distance_matrix, method='single')
+        dendrogram4 = sch.dendrogram(linkage, labels=list_doc, leaf_rotation=90, leaf_font_size=8, p=12,
+                                     color_threshold=0)
+        plt.title('single')
+        plt.xlabel("doc")
+        plt.ylabel(nom_similarite)
+        plt.show()
+        lis.append(linkage)
+        lis.append(linkage[-1][-2])
+        plt.savefig('C:/Users/MSI/Desktop/p1/plot_avant.png')
+    else:
+
+        pathh = 'C:/Users/MSI/Desktop/p1/plot_apres.png'
+        fig, ax = plt.subplots()
+        threshold = dist_value  # for hline
+        ax.axhline(y=threshold, c='k')
+        linkage = sch.linkage(distance_matrix, method='single')
+        dendrogram4 = sch.dendrogram(linkage, labels=list_doc, leaf_rotation=90, leaf_font_size=8, p=12, ax=ax,
+                                     color_threshold=0)
+        plt.title('single')
+        plt.xlabel("doc")
+        plt.ylabel(nom_similarite)
+        plt.show()
+        lis.append(linkage)
+        lis.append(linkage[-1][-2])
+        plt.savefig('C:/Users/MSI/Desktop/p1/plot_apres.png')
+    lis.append(pathh)
+
+    return lis
+
+
+def linkage_complete(distance_matrix,nom_similarite,list_doc,dist_value):
+    lis = []
+    if dist_value == 0:
+        pathh='C:/Users/MSI/Desktop/p1/plot_avant.png'
+
+        linkage = sch.linkage(distance_matrix, method='complete')
+        dendrogram4 = sch.dendrogram(linkage, labels=list_doc, leaf_rotation=90, leaf_font_size=8, p=12,
+                                     color_threshold=0)
+        plt.title('complete')
+        plt.xlabel("doc")
+        plt.ylabel(nom_similarite)
+        plt.show()
+        lis.append(linkage)
+        lis.append(linkage[-1][-2])
+        plt.savefig('C:/Users/MSI/Desktop/p1/plot_avant.png')
+    else:
+
+        pathh='C:/Users/MSI/Desktop/p1/plot_apres.png'
+        fig, ax = plt.subplots()
+        threshold = dist_value  # for hline
+        ax.axhline(y=threshold, c='k')
+        linkage = sch.linkage(distance_matrix, method='complete')
+        dendrogram4 = sch.dendrogram(linkage, labels=list_doc, leaf_rotation=90, leaf_font_size=8, p=12, ax=ax,
+                                     color_threshold=0)
+        plt.title('complete')
+        plt.xlabel("doc")
+        plt.ylabel(nom_similarite)
+        plt.show()
+        lis.append(linkage)
+        lis.append(linkage[-1][-2])
+        plt.savefig('C:/Users/MSI/Desktop/p1/plot_apres.png')
+    lis.append(pathh)
+    return lis
+
+
+def linkage_average(distance_matrix,nom_similarite,list_doc,dist_value):
+    lis = []
+    if dist_value == 0:
+        pathh='C:/Users/MSI/Desktop/p1/plot_avant.png'
+        linkage = sch.linkage(distance_matrix, method='average')
+        dendrogram4 = sch.dendrogram(linkage, labels=list_doc, leaf_rotation=90, leaf_font_size=8, p=12,color_threshold=0)
+        plt.title('average')
+        plt.xlabel("doc")
+        plt.ylabel(nom_similarite)
+        lis.append(linkage)
+        lis.append(linkage[-1][-2])
+        plt.show()
+        plt.savefig('C:/Users/MSI/Desktop/p1/plot_avant.png')
+    else:
+        pathh='C:/Users/MSI/Desktop/p1/plot_apres.png'
+        fig, ax = plt.subplots()
+        threshold = dist_value  # for hline
+        ax.axhline(y=threshold, c='k')
+        linkage = sch.linkage(distance_matrix, method='average')
+        dendrogram4 = sch.dendrogram(linkage, labels=list_doc, leaf_rotation=90, leaf_font_size=8, p=12, ax=ax,
+                                     color_threshold=0)
+        plt.title('average')
+        plt.xlabel("doc")
+        plt.ylabel(nom_similarite)
+        plt.show()
+        lis.append(linkage)
+        lis.append(linkage[-1][-2])
+
+        plt.savefig('C:/Users/MSI/Desktop/p1/plot_apres.png')
+
+    lis.append(pathh)
+
+    return lis
+
+
+def linkage_ward(distance_matrix, nom_similarite, list_doc ,dist_value):
+    lis=[]
+    if dist_value== 0:
+        pathh='C:/Users/MSI/Desktop/p1/plot_avant.png'
+
+        linkage = sch.linkage(distance_matrix, method='ward')
+        dendrogram4 = sch.dendrogram(linkage, labels=list_doc, leaf_rotation=90, leaf_font_size=8, p=12,color_threshold=0)
+        plt.title('ward')
+        plt.xlabel("doc")
+        plt.ylabel(nom_similarite)
+        lis.append(linkage)
+        lis.append(linkage[-1][-2])
+        plt.savefig('C:/Users/MSI/Desktop/p1/plot_avant.png')
+
+    else :
+        pathh='C:/Users/MSI/Desktop/p1/plot_apres.png'
+        fig, ax = plt.subplots()
+        threshold = dist_value # for hline
+        ax.axhline(y=threshold, c='k')
+        linkage = sch.linkage(distance_matrix, method='ward')
+        dendrogram4 = sch.dendrogram(linkage, labels=list_doc, leaf_rotation=90, leaf_font_size=8, p=12, ax=ax,color_threshold=0)
+        plt.title('ward')
+        plt.xlabel("doc")
+        plt.ylabel(nom_similarite)
+
+        lis.append(linkage)
+        lis.append(linkage[-1][-2])
+        #plt.savefig('C:/Users/MSI/Desktop/p1/plot_apres.png')
+    plt.show()
+
+    lis.append(pathh)
+    return lis
+
+
+def affiche_cluster_after_cut_dondrogramme(linkage,dist_value ,doc_list ,path):
+    fi=[]
+    groupes_cah =hierarchy.fcluster(linkage,dist_value,criterion='distance')
+    idg = np.argsort(groupes_cah)
+    liste_nom_doc=[]
+    liste_final_classe=[]
+    for i in idg:
+        liste_nom_doc.append(doc_list[i])
+    t=[]
+    listeee_doc=[]
+    cpt=0
+    liste_term_tfidf={}
+    grpp=list(groupes_cah[idg])
+    grpp.append(0)
+    for j in range(0,len(grpp)) :
+
+        if grpp[j] in t or t ==[] and cpt <= len(liste_nom_doc)-1  :
+            t.append(grpp[j])
+            listeee_doc.append(liste_nom_doc[cpt])
+
+        else:
+            dict_info_classe = {}
+            final = {}
+            ki = []
+            liste_term_tfidf = {}
+            total2 = corpus_pers2(path, listeee_doc)
+            word_corp = all_word_corpus(list(total2.values()))
+
+            tfidff = claculer_tf(word_corp, total2)
+            for p in tfidff:
+                moy = 0
+                term = ''
+                for q in p:
+                    moy = moy + q['TF']
+                    term = q['term']
+                moy = moy / len(listeee_doc)
+                liste_term_tfidf[term] = moy
+            final = dict(OrderedDict(sorted(liste_term_tfidf.items(), key=lambda x: x[1], reverse=True)))
+            ki = list(final.keys())
+            if cpt <= len(liste_nom_doc)-1:
+                dict_info_classe['num_classe'] = t[0]
+                dict_info_classe['titre_classe'] = ki[0] + ' ' + ki[1] + ' ' + ki[2]
+                dict_info_classe['nom_des_doc_de_classe'] = listeee_doc
+                liste_final_classe.append(dict_info_classe)
+
+                t = []
+                t.append(grpp[j])
+                listeee_doc = []
+                listeee_doc.append(liste_nom_doc[cpt])
+
+        cpt = cpt + 1
+    #affichage des observations et leurs groupes
+    #data=pandas.DataFrame(groupes_cah[idg], liste_nom_doc)
+   # nclusts = np.unique(groupes_cah).shape[0]
+    return liste_final_classe
+
+
+def matrice(src):
+    liss = []
+    total = corpus_pers(src)
+    word_corp = all_word_corpus(list(total.values()))
+    list_doc = list(total.keys())
+    tfidff = claculer_tfidf(word_corp, total)
+    freq_matrix = tfidf_matrix(tfidff)
+    liss.append(list_doc)
+    liss.append(freq_matrix)
+    return liss
+
+
+def CHAA(src, nom_similarite, nom_linkage):
+    freq_matrix = matrice(src)
+
+    if nom_similarite == 'ecludien':
+        distance_matrix = CHA_ecludien(freq_matrix[1])
+        if nom_linkage == 'ward':
+            a = linkage_ward(distance_matrix, nom_similarite, freq_matrix[0], 0)
+        else:
+            if nom_linkage == 'single':
+                a = linkage_single(distance_matrix, nom_similarite, freq_matrix[0], 0)
+            else:
+                if nom_linkage == 'complete':
+                    a = linkage_complete(distance_matrix, nom_similarite, freq_matrix[0], 0)
+                else:
+                    if nom_linkage=='average':
+
+                        a = linkage_average(distance_matrix, nom_similarite, freq_matrix[0], 0)
+
+                    else:
+                        print("error")
+    else:
+        if nom_similarite == 'cosinus':
+            distance_matrix = CHA_cosinus(freq_matrix[1])
+            if nom_linkage == 'ward':
+                a = linkage_ward(distance_matrix, nom_similarite, freq_matrix[0], 0)
+            else:
+                if nom_linkage == 'single':
+                    a = linkage_single(distance_matrix, nom_similarite, freq_matrix[0], 0)
+                else:
+                    if nom_linkage == 'complete':
+                        a = linkage_complete(distance_matrix, nom_similarite, freq_matrix[0], 0)
+                    else:
+                        a = linkage_average(distance_matrix, nom_similarite, freq_matrix[0], 0)
+
+        else:
+            if nom_similarite == 'jacard':
+                distance_matrix = CHA_jacard(freq_matrix[1])
+                if nom_linkage == 'ward':
+                    a = linkage_ward(distance_matrix, nom_similarite, freq_matrix[0], 0)
+                else:
+                    if nom_linkage == 'single':
+                        a = linkage_single(distance_matrix, nom_similarite, freq_matrix[0], 0)
+                    else:
+                        if nom_linkage == 'complete':
+                            a = linkage_complete(distance_matrix, nom_similarite, freq_matrix[0], 0)
+                        else:
+                            a = linkage_average(distance_matrix, nom_similarite, freq_matrix[0], 0)
+            else:
+                if nom_similarite == 'manhatan':
+                    distance_matrix = CHA_manhatan(freq_matrix[1])
+                    if nom_linkage == 'ward':
+                        a = linkage_ward(distance_matrix, nom_similarite, freq_matrix[0], 0)
+                    else:
+                        if nom_linkage == 'single':
+                            a = linkage_single(distance_matrix, nom_similarite, freq_matrix[0], 0)
+                        else:
+                            if nom_linkage == 'complete':
+                                a = linkage_complete(distance_matrix, nom_similarite, freq_matrix[0], 0)
+                            else:
+                                a = linkage_average(distance_matrix, nom_similarite, freq_matrix[0], 0)
+                else:
+                    print("error")
+
+    return a[2]
+
+
+def CHAA_apres_cut_dodrogramme(src, nom_similarite,nom_linkage, value_cut):
+    liss=[]
+    freq_matrix = matrice(src)
+    if nom_similarite == 'ecludien':
+        distance_matrix = CHA_ecludien(freq_matrix[1])
+        if nom_linkage == 'ward':
+            q= sch.linkage(distance_matrix, method='ward')
+            val_max=q[-1][-2]
+            pourcentage = (value_cut * val_max) / 100
+            a = linkage_ward(distance_matrix, nom_similarite, freq_matrix[0], pourcentage)
+
+
+            cluster_after_cut=affiche_cluster_after_cut_dondrogramme(a[0], pourcentage, freq_matrix[0], src)
+
+
+
+        else:
+            if nom_linkage == 'single':
+                q = sch.linkage(distance_matrix, method='single')
+                val_max = q[-1][-2]
+                pourcentage = (value_cut * val_max) / 100
+                a = linkage_single(distance_matrix, nom_similarite, freq_matrix[0], pourcentage)
+                cluster_after_cut = affiche_cluster_after_cut_dondrogramme(a[0], pourcentage, freq_matrix[0], src)
+
+            else:
+                if nom_linkage == 'complete':
+                    q = sch.linkage(distance_matrix, method='complete')
+                    val_max = q[-1][-2]
+                    pourcentage = (value_cut * val_max) / 100
+                    a = linkage_complete(distance_matrix, nom_similarite, freq_matrix[0], pourcentage)
+                    cluster_after_cut = affiche_cluster_after_cut_dondrogramme(a[0], pourcentage, freq_matrix[0], src)
+
+                else:
+                    if nom_linkage=='average':
+                        q = sch.linkage(distance_matrix, method='average')
+                        val_max = q[-1][-2]
+                        pourcentage = (value_cut * val_max) / 100
+                        a = linkage_average(distance_matrix, nom_similarite, freq_matrix[0], pourcentage)
+                        cluster_after_cut = affiche_cluster_after_cut_dondrogramme(a[0], pourcentage, freq_matrix[0],
+                                                                                   src)
+
+
+                    else:
+                        print("error")
+    else:
+        if nom_similarite == 'cosinus':
+            distance_matrix = CHA_cosinus(freq_matrix[1])
+            if nom_linkage == 'ward':
+                q = sch.linkage(distance_matrix, method='ward')
+                val_max = q[-1][-2]
+                pourcentage = (value_cut * val_max) / 100
+                a = linkage_ward(distance_matrix, nom_similarite, freq_matrix[0], pourcentage)
+                cluster_after_cut = affiche_cluster_after_cut_dondrogramme(a[0], pourcentage, freq_matrix[0], src)
+            else:
+                if nom_linkage == 'single':
+                    q = sch.linkage(distance_matrix, method='single')
+                    val_max = q[-1][-2]
+                    pourcentage = (value_cut * val_max) / 100
+                    a = linkage_single(distance_matrix, nom_similarite, freq_matrix[0], pourcentage)
+                    cluster_after_cut = affiche_cluster_after_cut_dondrogramme(a[0], pourcentage, freq_matrix[0], src)
+                else:
+                    if nom_linkage == 'complete':
+                        q = sch.linkage(distance_matrix, method='complete')
+                        val_max = q[-1][-2]
+                        pourcentage = (value_cut * val_max) / 100
+                        a = linkage_complete(distance_matrix, nom_similarite, freq_matrix[0], pourcentage)
+                        cluster_after_cut = affiche_cluster_after_cut_dondrogramme(a[0], pourcentage, freq_matrix[0],
+                                                                                   src)
+                    else:
+                        q = sch.linkage(distance_matrix, method='average')
+                        val_max = q[-1][-2]
+                        pourcentage = (value_cut * val_max) / 100
+                        a = linkage_average(distance_matrix, nom_similarite, freq_matrix[0], pourcentage)
+                        cluster_after_cut = affiche_cluster_after_cut_dondrogramme(a[0], pourcentage, freq_matrix[0],
+                                                                                   src)
+
+        else:
+            if nom_similarite == 'jacard':
+                distance_matrix = CHA_jacard(freq_matrix[1])
+                if nom_linkage == 'ward':
+                    q = sch.linkage(distance_matrix, method='ward')
+                    val_max = q[-1][-2]
+                    pourcentage = (value_cut * val_max) / 100
+                    a = linkage_ward(distance_matrix, nom_similarite, freq_matrix[0], pourcentage)
+                    cluster_after_cut = affiche_cluster_after_cut_dondrogramme(a[0], pourcentage, freq_matrix[0],
+                                                                               src)
+
+                else:
+                    if nom_linkage == 'single':
+                        q = sch.linkage(distance_matrix, method='single')
+                        val_max = q[-1][-2]
+                        pourcentage = (value_cut * val_max) / 100
+                        a = linkage_single(distance_matrix, nom_similarite, freq_matrix[0], pourcentage)
+                        cluster_after_cut = affiche_cluster_after_cut_dondrogramme(a[0], pourcentage, freq_matrix[0],
+                                                                                   src)
+                    else:
+                        if nom_linkage == 'complete':
+                            q = sch.linkage(distance_matrix, method='complete')
+                            val_max = q[-1][-2]
+                            pourcentage = (value_cut * val_max) / 100
+                            a = linkage_complete(distance_matrix, nom_similarite, freq_matrix[0], pourcentage)
+                            cluster_after_cut = affiche_cluster_after_cut_dondrogramme(a[0], pourcentage,
+                                                                                       freq_matrix[0],
+                                                                                       src)
+                        else:
+                            q = sch.linkage(distance_matrix, method='average')
+                            val_max = q[-1][-2]
+                            pourcentage = (value_cut * val_max) / 100
+                            a = linkage_average(distance_matrix, nom_similarite, freq_matrix[0], pourcentage)
+                            cluster_after_cut = affiche_cluster_after_cut_dondrogramme(a[0], pourcentage,
+                                                                                       freq_matrix[0],
+                                                                                       src)
+            else:
+                if nom_similarite == 'manhatan':
+                    distance_matrix = CHA_manhatan(freq_matrix[1])
+                    if nom_linkage == 'ward':
+                        q = sch.linkage(distance_matrix, method='ward')
+                        val_max = q[-1][-2]
+                        pourcentage = (value_cut * val_max) / 100
+                        a = linkage_ward(distance_matrix, nom_similarite, freq_matrix[0], pourcentage)
+                        cluster_after_cut = affiche_cluster_after_cut_dondrogramme(a[0], pourcentage, freq_matrix[0],
+                                                                                   src)
+                    else:
+                        if nom_linkage == 'single':
+                            q = sch.linkage(distance_matrix, method='single')
+                            val_max = q[-1][-2]
+                            pourcentage = (value_cut * val_max) / 100
+                            a = linkage_single(distance_matrix, nom_similarite, freq_matrix[0], pourcentage)
+                            cluster_after_cut = affiche_cluster_after_cut_dondrogramme(a[0], pourcentage,
+                                                                                       freq_matrix[0],
+                                                                                       src)
+                        else:
+                            if nom_linkage == 'complete':
+                                q = sch.linkage(distance_matrix, method='complete')
+                                val_max = q[-1][-2]
+                                pourcentage = (value_cut * val_max) / 100
+                                a = linkage_complete(distance_matrix, nom_similarite, freq_matrix[0], pourcentage)
+                                cluster_after_cut = affiche_cluster_after_cut_dondrogramme(a[0], pourcentage,
+                                                                                           freq_matrix[0],
+                                                                                           src)
+                            else:
+                                q = sch.linkage(distance_matrix, method='average')
+                                val_max = q[-1][-2]
+                                pourcentage = (value_cut * val_max) / 100
+                                a = linkage_average(distance_matrix, nom_similarite, freq_matrix[0], pourcentage)
+                                cluster_after_cut = affiche_cluster_after_cut_dondrogramme(a[0], pourcentage,
+                                                                                           freq_matrix[0],
+                                                                                           src)
+                else:
+                    print("error")
+    liss.append(cluster_after_cut)
+    liss.append(a[2])
+    return liss
+
+
+
+
+
+
+
+
+
+
+src ='C:/Users/MSI/Desktop/p'
+nom_similarite='ecludien'
+nom_linkage='ward'
+#................le 1er  affichage............................#
+#.........return le path d'image..............................
+b=CHAA(src,nom_similarite,nom_linkage)
+#print("le path de graphe avant le couper:",b)
+
+#................le 2eme  affichage............................#
+#a[0]:une liste qui contienne plusieurs dict ,chaue dict est une classe {'num_classe': 1, 'titre_classe': 'بنسبة الياباني الصناعي', 'nom_des_doc_de_classe': ['japon i9tissad.txt']}
+#a[1]:le path de dondrogramme
+
+a=CHAA_apres_cut_dodrogramme(src, nom_similarite,nom_linkage, 50)
+print("info sur les classes:")
+for i in a[0]:
+    print(i)
+#print("le path de graphe apres le couper:",a[1])
+
+
+
+
+
+

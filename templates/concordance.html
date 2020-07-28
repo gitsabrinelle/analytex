@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	
+
+
+
+  <link rel="stylesheet" href="{{ url_for('static',filename='csscollocation.css') }}">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='bootstrap.css') }}">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='font-awesome.min.css') }}">
+
+	
+    
+
+	<title>concordance</title>
+  <style type="text/css">
+  .scrollit {
+    overflow:scroll;
+    height:600px;
+}
+    
+nav > .nav.nav-tabs{
+
+  border: none;
+    color:#fff;
+    background:#272e38;
+    border-radius:0;
+
+}
+nav > div a.nav-item.nav-link,
+nav > div a.nav-item.nav-link.active
+{
+  border: none;
+    padding: 18px 25px;
+    color:#fff;
+    background:#272e38;
+    border-radius:0;
+}
+
+nav > div a.nav-item.nav-link.active:after
+ {
+  content: "";
+  position: relative;
+  bottom: -60px;
+  left: -10%;
+  border: 15px solid transparent;
+  border-top-color: #e74c3c ;
+}
+.tab-content{
+  background: #fdfdfd;
+    line-height: 25px;
+    border: 1px solid #ddd;
+    border-top:5px solid #e74c3c;
+    border-bottom:5px solid #e74c3c;
+    padding:30px 25px;
+}
+
+nav > div a.nav-item.nav-link:hover,
+nav > div a.nav-item.nav-link:focus
+{
+  border: none;
+    background: #e74c3c;
+    color:#fff;
+    border-radius:0;
+    transition:background 0.20s linear;
+}
+  </style>
+
+ <style type="text/css">
+
+
+
+.navbar.top-bar {
+  border-radius: 0;
+  height: 120px;
+  padding: 16px 0;
+  z-index: 16;
+  background: #154360;
+}
+.navbar-toggler {
+  border: 1px solid #fff;
+  color: #fff;
+  position: absolute;
+  right: 21px;
+}
+.sps {
+  padding: 1em .5em;
+  position: fixed;
+  top: 0;
+  left: 0;
+  transition: all 0.25s ease;
+  width: 100%;
+}
+.sps--abv {
+  background-color: transparent;
+  color: #000;
+}
+.sps--blw {
+  background-color: #fff;
+  color: #fff;
+}
+.top-bar a.navbar-brand {
+  color: #fff;
+  font-size: 26px;
+  font-weight: 800;
+  padding: 5px 0 0 10px;
+  text-transform: uppercase;
+}
+.sps--blw.top-bar a.navbar-brand {
+  color: #A6ACAF;
+}
+.top-bar a.navbar-brand span {
+  color: #0297ff;
+}
+.top-bar .nav-link {
+  color: #fff;
+  font-size: 16px;
+  font-weight: 500;
+  padding: 12px 18px!important;
+}
+.sps--blw.top-bar .nav-link {
+  color: #A6ACAF;
+}
+.top-bar .navbar-nav .nav-item {
+  margin: 0
+}
+.top-bar .nav-link:hover, .top-bar .nav-item.active a {
+  color: #FFCA28;
+  border-bottom: 2px solid #FFCA28;
+  border-radius: 0;
+}
+.sps--blw.top-bar .nav-link:hover, .sps--blw.top-bar .nav-item.active a {
+  color: #FFCA28;
+  border-bottom: none;
+  border-radius: 0;
+}
+/* CUSTOMIZE THE CAROUSEL
+-------------------------------------------------- */
+
+/*Swiper*/
+.swiper-container {
+  width: 100%;
+  height: 70vh;
+  top: 0px;
+}
+.swiper-slide {
+  text-align: center;
+  font-size: 18px;
+  background: #fff;
+  /* Center slide text vertically */
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  -webkit-align-items: center;
+  align-items: center;
+  top: 0px;
+}
+.main-slider .slider-bg-position {
+  background-size: cover!important;
+  background-position: center center!important;
+  top: 0px;
+}
+.main-slider .swiper-button-prev, .main-slider .swiper-button-next {
+  background-image: none!important;
+  color: #fff;
+  width: 50px;
+  height: 50px;
+  border: 1px solid #fff;
+  text-align: center;
+  line-height: 50px;
+  font-size: 20px;
+}
+.main-slider h2 {
+  color: #fff;
+  font-size: 54px;
+  line-height: 59px;
+  padding: 0 19%;
+  text-transform: uppercase;
+}
+.main-slider .swiper-pagination-bullet {
+  width: 20px;
+  height: 20px;
+  background: rgba(255,255,255,0.9)
+}
+.main-slider .swiper-pagination-bullet-active {
+  background: #0297ff
+}
+.content-header{
+  font-family: 'Oleo Script', cursive;
+  color:#fcc500;
+  font-size: 45px;
+
+}
+.section-content{
+  margin-top: 0%;
+  margin-left: -800px;
+  text-align: center;
+
+
+
+}
+
+.section-header{
+  color:grey;
+
+}
+    
+
+
+
+  </style>
+
+
+
+
+</head>
+<body>
+<div class="container">
+
+
+    <nav class="navbar navbar-expand-lg  top-bar navbar-static-top sps sps--abv">
+        <div class="container">
+      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarCollapse1" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <a class="navbar-brand mx-auto" href="#">analy<span>tex</span></a>
+      <div class="collapse navbar-collapse" id="navbarCollapse1">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item"> <a class="nav-link" href="{{ url_for('outil1') }}">Outils</a> </li>
+        <li class="nav-item  "> <a class="nav-link" href="{{ url_for('analyse') }} ">Analyse frequencielle </a> </li>
+        <li class="nav-item active"> <a class="nav-link" href="{{ url_for('concordance') }} ">Concordance <span class="sr-only">(current)</span></a> </li>
+        <li class="nav-item"> <a class="nav-link" href="{{ url_for('NGram') }} ">Ngrams</a> </li>
+        <li class="nav-item"> <a class="nav-link" href="{{ url_for('collocation') }} ">Colocation</a></li>
+        <li class="nav-item"> <a class="nav-link" href="{{ url_for('classification') }} ">Classification</a> </li>
+        <li class="nav-item"> <a class="nav-link" href="{{ url_for('recherche') }} ">bibliotheque</a> </li>
+        </ul>
+      </div>
+            </div>
+    </nav>
+
+   
+<div>nl-gwlaewkdgnskeenv-sdnkbv enwłORMGBŁr
+rnŁMAERŁNOHLSFN KBNLRŁEAMSLŁBNlłAMSBWŁLrbłTélécharger MacKeeper pour détecter facilement les virus, logiciels publicitaires, fichiers inutiles, failles de sécurité et autres éléments indésirables sur votre Mac, et corriger en quelques clics l'ensemble des vulnérabilités. Bénéficiez en plus d'une protection complète grâce aux technologies VPN, anti-suivi et antivol de MacKeeper.nl-gwlaewkdgnskeenv-sdnkbv enwłORMGBŁr
+rnŁMAERŁNOHLSFN KBNLRŁEAMSLŁBNlłAMSBWŁLrbłTélécharger MacKeeper pour détecter facilement les virus, logiciels publicitaires, fichiers inutiles, failles de sécurité et autres éléments indésirables sur votre Mac, et corriger en quelques clics l'ensemble des vulnérabilités.  </div>
+
+
+
+
+
+
+
+
+
+
+
+  <div class="ss">
+
+	<div class="container contact">
+    <h2>concordance</h2>
+  <div class="row">
+   
+    <div class="col-md-9">
+      <div class="contact-form">
+        <div class="form-group">
+          <form  role="form" action="" method="post" enctype="multipart/form-data">
+          <label class="control-label col-sm-2" for="fname">requete: </label>
+          <div class="col-sm-10">          
+          <input type="text" class="form-control" id="search_text" placeholder="Enter mot a rechercher" name="req" required="">
+         
+           </div>
+
+                                                <label class="radio inline"> 
+                                                    <input type="radio" name="conc" id="r3" value="KWAK" onclick="Checkradio()" >
+                                                    <span> KWAK </span> 
+                                                </label>
+                                                &nbsp;&nbsp;
+                                                <label class="radio inline"> 
+                                                    <input type="radio" name="conc"  id="r2" value="KWUT" onclick="Checkradio()" >
+                                                    <span>KWUT </span> 
+                                                </label>
+                                                &nbsp;&nbsp;
+                                                 <label class="radio inline"> 
+                                                    <input type="radio" name="conc"  id="r1" value="PTP" onclick="Checkradio()" >
+                                                    <span>PTP </span> 
+                                                </label>
+                                                &nbsp;&nbsp;
+                                                 <label class="radio inline"> 
+                                                    <input type="radio" name="conc"  id="r4" value="base_lemme" onclick="Checkradio()" >
+                                                    <span>base_lemme </span> 
+                                                </label>
+          <br>
+          <label class="d " for="fname">context avant:</label>
+                   
+          <input type="text" class="form-contro" id="fname1" name="nb" required="">
+          
+           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <label class="d " for="fname">context apres:</label>
+                    
+          <input type="text" class="form-contro" id="fname2" name="nb2" required="">
+         
+
+        </div>
+
+          
+           <button type="submit"  name="btn_conc" class="btn btn-default" id="search1" >Rechercher</button>
+           <button type="button"  name="btn_conc" class="btn btn-default" id="search" >KWUT</button>
+         
+           
+
+
+     
+        <div class="search-list">
+        <table class="table" cellspacing="0" id="myTable" >  
+        {% if av:%}
+        {% if l1 > 0 %}
+        <thead>
+        <tr>
+        <th>Rang</th>
+        <th>context avant</th>
+        <th>forme</th>
+        <th>context apres</th>
+        </tr>
+        </thead>
+                                       
+        
+        {% for i in range(0, l1 ):%}
+        <tbody>
+        <tr>
+        <td>{{ i }}</td>
+        <td>{{ av[0][i]}}</td>
+        <td style="color: red">{{ term }}</td>
+        <td>{{ av[1][i]}}</td>
+        </tr>
+        {% endfor %}
+        {% else %}
+        <p>le mot n'existe pas </p>
+        {% endif %}
+                                        
+        {% endif %}
+        </tbody>
+        </table>
+        </div>
+
+   
+
+<style>
+#search_para
+{
+ color:grey;
+}
+.highlight
+{
+ color:blue;
+ text-decoration:underline;
+}
+</style>
+
+ <script>
+ $(document).ready(function () {
+$("#myInput").on("keyup", function () {
+ var value = $(this).val().toLowerCase();
+$("#myTable tr").filter(function () {
+$(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+ });
+  });
+  });
+</script>
+
+
+
+<div>
+  
+<p id="search_para">{{f}}</p>
+
+</div>
+
+
+ <script>
+document.addEventListener( 'DOMContentLoaded',function(){
+ var searchpara=document.getElementById("search_para").innerHTML;
+ searchpara=searchpara.toString();
+ document.getElementById("search").onclick =function ()
+ {highlight_word(searchpara)};  
+},false);
+
+function highlight_word(searchpara)
+{
+ var text=document.getElementById("search_text").value;
+ if(text)
+ {
+  var pattern=new RegExp("("+text+")", "gi");
+  var new_text=searchpara.replace(pattern, "<span class='highlight'>"+text+"</span>");
+  document.getElementById("search_para").innerHTML=new_text;
+ }
+}
+</script>
+
+      
+        
+
+       
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+	<script src="{{ url_for('static',filename='jquery-3.3.1_2.js') }}"></script>
+  <script src="{{ url_for('static',filename='jquery-1.11.1.min.js') }}"></script>
+  <script src="{{ url_for('static',filename='bootstrap.min.js') }}"></script>
+  <script src="{{ url_for('static',filename='bootstrap.js') }}"></script>
+  <script src="{{ url_for('static',filename='slide3.js') }}"></script>
+ 
+
+<script type="text/javascript">
+  function Checkradiobutton()
+ {
+
+  if(document.getElementById('r1').checked || document.getElementById('r2').checked)
+ {
+
+        document.getElementById('fname1').disabled=true;
+                document.getElementById('fname2').disabled=true; 
+
+   }else{
+                   
+                    document.getElementById('fname1').disabled=false;
+                document.getElementById('fname2').disabled=false;
+                }
+ }
+
+</script>
+
+
+<script type="text/javascript">
+  function Checkradio()
+ {
+
+  if(document.getElementById('r1').checked || document.getElementById('r4').checked || document.getElementById('r3').checked)
+ {
+
+     
+                 document.getElementsByName("btn_conc").setAttribute('type', 'submit');
+
+   }else{
+                    document.getElementsByName("btn_conc").setAttribute('type', 'button');
+                  
+                }
+ }
+
+</script>
+
+
+
+<script type="text/javascript">
+       $(document).ready(function() {
+            $(".menu-icon").on("click", function() {
+                  $("nav ul").toggleClass("showing");
+            });
+      });
+
+      // Scrolling Effect
+
+      $(window).on("scroll", function() {
+            if($(window).scrollTop()) {
+                  $('nav').addClass('black');
+            }
+
+            else {
+                  $('nav').removeClass('black');
+            }
+      })
+/*------- Smooth Scroll -------*/
+
+$('a[href^="#"]').on('click', function(event) {
+
+    var target = $( $(this).attr('href') );
+
+    if( target.length ) {
+        event.preventDefault();
+        $('html, body').animate({
+            scrollTop: target.offset().top
+        }, 1000);
+    }
+
+});
+    </script>
+
+
+  
+  
+
+
+  
+
+</body>
+</html>

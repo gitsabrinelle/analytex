@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	
+
+
+
+  <link rel="stylesheet" href="{{ url_for('static',filename='csscollocation.css') }}">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='bootstrap.css') }}">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='font-awesome.min.css') }}">
+
+	
+    
+
+	<title>concordance</title>
+  <style type="text/css">
+  .scrollit {
+    overflow:scroll;
+    height:600px;
+}
+    
+nav > .nav.nav-tabs{
+
+  border: none;
+    color:#fff;
+    background:#272e38;
+    border-radius:0;
+
+}
+nav > div a.nav-item.nav-link,
+nav > div a.nav-item.nav-link.active
+{
+  border: none;
+    padding: 18px 25px;
+    color:#fff;
+    background:#272e38;
+    border-radius:0;
+}
+
+nav > div a.nav-item.nav-link.active:after
+ {
+  content: "";
+  position: relative;
+  bottom: -60px;
+  left: -10%;
+  border: 15px solid transparent;
+  border-top-color: #e74c3c ;
+}
+.tab-content{
+  background: #fdfdfd;
+    line-height: 25px;
+    border: 1px solid #ddd;
+    border-top:5px solid #e74c3c;
+    border-bottom:5px solid #e74c3c;
+    padding:30px 25px;
+}
+
+nav > div a.nav-item.nav-link:hover,
+nav > div a.nav-item.nav-link:focus
+{
+  border: none;
+    background: #e74c3c;
+    color:#fff;
+    border-radius:0;
+    transition:background 0.20s linear;
+}
+  </style>
+</head>
+<body>
+  <div class="ss">
+
+	<div class="container contact">
+    <h2>concordance</h2>
+  <div class="row">
+   
+    <div class="col-md-9">
+      <div class="contact-form">
+        <div class="form-group">
+          <form  role="form" action="" method="post" enctype="multipart/form-data">
+          <label class="control-label col-sm-2" for="fname">requete: </label>
+          <div class="col-sm-10">          
+          <input type="text" class="form-control" id="search_text" placeholder="Enter mot a rechercher" name="req">
+          <input type="file" webkitdirectory multiple class="form-control" id="fname" placeholder="Enter mot a rechercher" name="file[]" accept=".txt" >
+           </div>
+
+                                                <label class="radio inline"> 
+                                                    <input type="radio" name="conc" id="KWAK" value="KWAK" onclick="Checkradiobutton()" >
+                                                    <span> KWAK </span> 
+                                                </label>
+                                                <br>
+                                                <label class="radio inline"> 
+                                                    <input type="radio" name="conc"  id="r2" value="KWUT" onclick="Checkradiobutton()" >
+                                                    <span>KWUT </span> 
+                                                </label>
+                                                 <br>
+                                                 <label class="radio inline"> 
+                                                    <input type="radio" name="conc"  id="r1" value="PTP" onclick="Checkradiobutton()" >
+                                                    <span>PTP </span> 
+                                                </label>
+          <br>
+          <label class="d " for="fname">Nombre de mots avant:</label>
+          <div class="col-sm-10">          
+          <input type="text" class="form-contro" id="fname1" name="nb">
+          </div>
+
+          <label class="d " for="fname">Nombre de mots apres:</label>
+          <div class="col-sm-10">          
+          <input type="text" class="form-contro" id="fname2" name="nb2">
+          </div>
+
+        </div>
+          <div class="form-group">        
+          
+           <button type="submit" class="btn btn-default" id="search" >Rechercher</button>
+         
+            </div>
+
+     
+        <div class="scrollit">
+        <table class="table" cellspacing="0">  
+        {% if av:%}
+        <thead>
+        <tr>
+        <th>Rang</th>
+        <th>context avant</th>
+        <th>forme</th>
+        <th>context apres</th>
+        </tr>
+        </thead>
+                                       
+        
+        {% for i in range(0, l1 ):%}
+        <tbody>
+        <tr>
+        <td>{{ i }}</td>
+        <td>{{ av[0][i]}}</td>
+        <td style="color: red">{{ term }}</td>
+        <td>{{ av[1][i]}}</td>
+        </tr>
+        {% endfor %}
+        
+                                        
+        {% endif %}
+        </tbody>
+        </table>
+        </div>
+
+    <script>
+document.addEventListener( 'DOMContentLoaded',function(){
+ var searchpara=document.getElementById("search_para").innerHTML;
+ searchpara=searchpara.toString();
+ document.getElementById("search").onclick =function ()
+ {highlight_word(searchpara)};  
+},false);
+
+function highlight_word(searchpara)
+{
+ var text=document.getElementById("search_text").value;
+ if(text)
+ {
+  var pattern=new RegExp("("+text+")", "gi");
+  var new_text=searchpara.replace(pattern, "<span class='highlight'>"+text+"</span>");
+  document.getElementById("search_para").innerHTML=new_text;
+ }
+}
+</script>
+
+<style>
+#search_para
+{
+ color:grey;
+}
+.highlight
+{
+ color:blue;
+ text-decoration:underline;
+}
+</style>
+
+
+
+<div>
+<p id="search_para">The European languages are members of the same family. Their separate existence is a myth. For science, music, sport, etc, Europe uses the same vocabulary. The languages only differ in their grammar, their pronunciation and their most common words. Everyone realizes why a new common language would be desirable: one could refuse to pay expensive translators. To achieve this, it would be necessary to have uniform grammar, pronunciation and more common words. If several languages coalesce, the grammar of the resulting language is more simple and regular than that of the individual languages. The new common language will be more simple and regular than the existing European languages.</p>
+</div>
+
+
+      
+        
+
+       
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+	<script src="{{ url_for('static',filename='jquery-3.3.1_2.js') }}"></script>
+  <script src="{{ url_for('static',filename='jquery-1.11.1.min.js') }}"></script>
+  <script src="{{ url_for('static',filename='bootstrap.min.js') }}"></script>
+  <script src="{{ url_for('static',filename='bootstrap.js') }}"></script>
+  <script src="{{ url_for('static',filename='slide3.js') }}"></script>
+
+<script type="text/javascript">
+  function Checkradiobutton()
+ {
+
+  if(document.getElementById('r1').checked || document.getElementById('r2').checked)
+ {
+
+        document.getElementById('fname1').disabled=true;
+                document.getElementById('fname2').disabled=true; 
+
+                
+ 
+   }else{
+                   
+                    document.getElementById('fname1').disabled=false;
+                document.getElementById('fname2').disabled=false;
+                }
+ }
+
+</script>
+
+
+  
+  
+
+
+  
+
+</body>
+</html>

@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">  
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+  <link rel="stylesheet" href="{{ url_for('static',filename='css/outil1.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/outil11.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static',filename='css/expl2.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/tools2.css') }}">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/bootstrap.css') }}">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='font-awesome.min.css') }}">
+    
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+
+
+
+    <title>outils</title>
+    <style type="text/css">
+.hmm{ color:#154360; }
+
+
+
+.live__scroll {
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
+}
+.live__scroll .row{
+  display:block;
+}
+.live__scroll .live__scroll--box {
+  display: inline-block;
+  float: none;
+  padding: 15px;
+}
+    </style>
+</head>     
+<body class="home">
+
+    <div class="page-wrapper container-fluid display-table toggled">
+        <div class="row display-table-row">
+            <div class="col-md-2 col-sm-1 hidden-xs display-table-cell v-align box" id="navigation">
+                <div class="logo" >
+
+                 
+                        <img  style="background-color: #3262a8 white=10 height=20; "src="{{ url_for('static',filename='photo/logo6.png') }}" >
+                   
+                </div>
+                <div class="navi">
+                    <ul>
+                        
+                        <li ><a href="{{ url_for('paltform') }}"><i 
+                        " aria-hidden="true"></i><span class="hidden-xs hidden-sm">Acceuil</span></a></li>
+
+                        <li><a href="{{ url_for('profile') }}"><span class="hidden-xs hidden-sm">profile</span></a></li>
+                       
+                       <li><a href="{{ url_for('analyse') }}"><span class="hidden-xs hidden-sm">Analyse frequencielle</span></a></li>
+
+                        <li><a href="{{ url_for('concordance') }}"><span class="hidden-xs hidden-sm">concordance</span></a></li>
+
+                        <li><a href="{{ url_for('NGram') }}"><span class="hidden-xs hidden-sm">N-Grams</span></a></li>
+
+                        <li><a href="{{ url_for('collocation') }}"><span class="hidden-xs hidden-sm">collocation</span></a></li>
+
+                        <li><a href="{{ url_for('classification') }}"><span class="hidden-xs hidden-sm">classification</span></a></li>
+
+                        <li><a href="{{ url_for('recherche') }}"><span class="hidden-xs hidden-sm">bibliotheque des corpus
+                        </span></a></li>
+                        <li><a href="{{ url_for('logout') }}">Deconnexion</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-10 col-sm-11 display-table-cell v-align">
+                <!--<button type="button" class="slide-toggle">Slide Toggle</button> -->
+               
+
+          
+         
+  
+    <div class="container-fluid" >
+      <h2 align="center">Creer un corpus</h2>
+    </div>
+      <hr>
+     
+      <div class="row">
+        <div class="col-md-9">
+      
+
+
+
+
+ <form role="form" action="" method="post" enctype=multipart/form-data>
+ 
+    <label class="custom-file-label" for="inputGroupFile01" name="corpus">choisir fichier</label>
+    <input type="file" class="" id="fname" placeholder="Enter mot a rechercher" name="chemin" accept=".txt">
+   
+     <br>
+
+    <label class="custom-file-label" for="inputGroupFile01" name="corpus">choisir dossier</label>
+     <input type="file" webkitdirectory multiple class="form-control" id="fname" placeholder="Enter mot a rechercher" name="file[]" accept=".txt" >
+     
+ 
+ <div class="form-group col-md-12">
+         
+
+<label class="radio-inline"><input type="radio" name="optradio" id="lexicometrie" value="lexicometrie" checked >lexicometrie</label>
+<label class="radio-inline"><input type="radio" name="optradio" id="tokenization" value="tokenization">tokenization</label>
+
+
+  <div align="right"  class="input-group-append">
+    <button class="btn btn-outline-secondary" type="submit" style="background-color: #3262a8; color: white;" ><b>Valider</b></button>
+  </div>
+
+
+
+
+
+        </div>
+       
+
+      </header>
+            
+          
+
+
+            </div>
+              <div class="container" style="background-color: white">
+                
+                    <h4>Analyse Frequencielle</h4>
+                  
+                <div class="live__scroll">
+  <div class="row text-left">
+
+    {% for i in analyse_frequencielle %}
+    <div class="col-md-3 live__scroll--box" align="center">
+     <div class="card" style="width: 25rem;">
+        <img src="{{ url_for('static',filename='photo/analyse.jpg') }}" class="card-img-top">
+        <div class="card-body">
+            
+            <p class="card-text" style="font-size: 150%"><b>{{ i[10] }}</b></p>
+            <a href="/outil1/historique_analyse/{{i[0]}}"  class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Consulter</a>
+ 
+
+        </div>
+    </div>
+    </div>
+            {% endfor %}
+
+</div>
+
+</div>
+
+              </div>
+               <div class="container" style="background-color: white">
+                
+                    <h4>Concordance</h4>
+                  
+                <div class="live__scroll">
+  <div class="row text-left">
+
+    {% for i in result2 %}
+    <div class="col-md-3 live__scroll--box" align="center">
+     <div class="card" style="width: 25rem;">
+        <img src="{{ url_for('static',filename='photo/sab.png') }}" class="card-img-top">
+        <div class="card-body">
+            
+            <p class="card-text" style="font-size: 150%"><b>{{ i[8] }}</b></p>
+            <a href="/outil1/historique_concordance/{{i[0]}}" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Consulter</a>
+                
+        </div>
+    </div>
+    </div>
+            {% endfor %}
+
+</div>
+
+</div>
+
+              </div>
+
+
+
+       <div class="container" style="background-color: white">
+                
+                    <h4>N_Grams</h4>
+                  
+                <div class="live__scroll">
+  <div class="row text-left">
+
+    {% for i in ngramss %}
+    <div class="col-md-3 live__scroll--box" align="center">
+     <div class="card" style="width: 25rem;">
+        <img src="{{ url_for('static',filename='photo/analyse.jpg') }}" class="card-img-top">
+        <div class="card-body">
+            
+            <p class="card-text" style="font-size: 150%"><b>{{ i[6] }}</b></p>
+            <a href="/outil1/historique_ngram/{{i[0]}}"  class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Consulter</a>
+ 
+
+        </div>
+    </div>
+    </div>
+            {% endfor %}
+
+</div>
+
+</div>
+
+              </div>
+
+
+
+
+
+
+
+
+
+            </div>
+        </div>
+
+    </div>
+
+
+
+  
+
+
+</body>
+<script src="{{ url_for('static',filename='jquery-3.3.1_2.js') }}"></script>
+  <script src="{{ url_for('static',filename='jquery-1.11.1.min.js') }}"></script>
+    <script src="{{ url_for('static',filename='bootstrap.min.js') }}"></script>
+  <script src="{{ url_for('static',filename='bootstrap.js') }}"></script>
+    <script src="{{ url_for('static',filename='outil1.js') }}"></script>
+      <script src="{{ url_for('static',filename='js/tools2.js') }}"></script>
+  
+  
+
+
+  
+
+</body>
+</html>

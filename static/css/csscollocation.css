@@ -1,0 +1,64 @@
+body{
+		background-color: white;
+	}
+	.ss{
+		height: 800px;
+		width: 100%;
+		background: white;
+
+	}
+	.contact{
+		padding: 2%;
+		height: 600px;
+		width: 100%;
+		background: #FFCA28;
+	}
+
+	.col-md-9{
+		background: white;
+		padding: 2%;
+		left: 11%;
+		border-top-left-radius: 0.5rem;
+		border-bottom-left-radius: 0.5rem;
+		border-top-right-radius: 0.5rem;
+		border-bottom-right-radius: 0.5rem;
+	}
+	.contact-info{
+		margin-top:0%;
+		background: blue;
+		padding: 2%;
+		height: 350px;
+		border-top-left-radius: 0.5rem;
+		border-bottom-left-radius: 0.5rem;
+		border-top-right-radius: 0.5rem;
+		border-bottom-right-radius: 0.5rem;
+
+
+	}
+	.contact-info img{
+		margin-bottom: 15%;
+	}
+	.contact-info h2{
+		margin-bottom: 10%;
+	}
+	.col-md-6{
+		background: white;
+		padding: 6%;
+		border-top-right-radius: 0.5rem;
+		border-bottom-right-radius: 0.5rem;
+	}
+	.contact-form label{
+		font-weight:600;
+	}
+	.contact-form button{
+		background: yellow;
+		color: #fff;
+		font-weight: 600;
+		margin-bottom: 10%;
+		margin-left: 50%;
+		width: 30%;
+	}
+	}
+	.contact-form button:focus{
+		box-shadow:none;
+	}
