@@ -89,7 +89,7 @@ from collections import OrderedDict
 from stop_words import get_stop_words
 import mysql.connector
 
-conn = mysql.connector.connect(host="localhost", user="root", password="", database="analytex")
+conn = mysql.connector.connect(host="localhost", user="root", password="sabrina", database="analytex")
 cursor = conn.cursor()
 print('connecte')
 
